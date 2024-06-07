@@ -390,6 +390,7 @@ static int64_t compactProcess(int pid, VmaToAdviseFunc vmaToAdviseFunc) {
                 ++pageoutVmaIndex;
                 break;
         }
+        return true;
     };
     meminfo.ForEachVmaFromMaps(vmaCollectorCb, mapsBuffer);
     ATRACE_END();
@@ -582,8 +583,8 @@ static jstring com_android_server_am_CachedAppOptimizer_getFreezerCheckPath(JNIE
 }
 
 static jboolean com_android_server_am_CachedAppOptimizer_isFreezerProfileValid(JNIEnv* env) {
-    int uid = getuid();
-    int pid = getpid();
+    uid_t uid = getuid();
+    pid_t pid = getpid();
 
     return isProfileValidForProcess("Frozen", uid, pid) &&
             isProfileValidForProcess("Unfrozen", uid, pid);
